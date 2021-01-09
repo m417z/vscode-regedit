@@ -1,8 +1,9 @@
 {
-	"name": "cat-coding",
-	"description": "Cat Coding - A Webview API Sample",
-	"version": "0.0.1",
-	"publisher": "vscode-samples",
+	"name": "regedit",
+	"description": "A registry editor inside VS Code",
+	"version": "1.0.0",
+	"icon": "assets/main-icon.png",
+	"publisher": "m417z",
 	"engines": {
 		"vscode": "^1.47.0"
 	},
@@ -10,28 +11,29 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:catCoding.start",
-		"onCommand:catCoding.doRefactor",
-		"onWebviewPanel:catCoding"
+		"onCommand:regedit.start",
+		"onWebviewPanel:regedit"
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/microsoft/vscode-extension-samples.git"
+		"url": "https://github.com/m417z/vscode-regedit"
 	},
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "catCoding.start",
-				"title": "Start cat coding session",
-				"category": "Cat Coding"
-			},
-			{
-				"command": "catCoding.doRefactor",
-				"title": "Do some refactoring",
-				"category": "Cat Coding"
+				"command": "regedit.start",
+				"title": "%commands.start.title%",
+				"category": "%commands.category%"
 			}
-		]
+		],
+		"menus": {
+			"editor/title": [
+				{
+					"command": "regedit.start"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
@@ -39,7 +41,10 @@
 		"lint": "eslint . --ext .ts,.tsx",
 		"watch": "tsc -w -p ./"
 	},
-	"dependencies": {},
+	"dependencies": {
+		"native-reg": "^0.3.4",
+		"vscode-nls-i18n": "github:m417z/vscode-nls-i18n#dist"
+	},
 	"devDependencies": {
 		"@typescript-eslint/eslint-plugin": "^3.0.2",
 		"@typescript-eslint/parser": "^3.0.2",

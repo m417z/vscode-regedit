@@ -1,0 +1,50 @@
+{
+    "global": {
+        "yes": "Да",
+        "no": "Нет"
+    },
+    "addressBar": {
+        "registryPath": "Путь к разделу реестра",
+        "invalidRegistryPath": "Недопустимый путь к разделу реестра"
+    },
+    "keysTreeView": {
+        "computer": "Компьютер",
+        "newKeyModal": {
+            "title": "Создать новый ключ",
+            "newKeyName": "Имя нового ключа",
+            "create": "Создать",
+            "cancel": "Отменить"
+        },
+        "confirmDeleteKeyModal": {
+            "title": "Подтвердите удаление ключа",
+            "text": "Вы уверены, что хотите навсегда удалить ключ \"{{key}}\" и все его подразделы?"
+        }
+    },
+    "valuesList": {
+        "columnNames": {
+            "name": "Имя",
+            "type": "Тип",
+            "value": "Значение"
+        },
+        "defaultName": "(По умолчанию)",
+        "newValueModal": {
+            "title": "Создать новое значение",
+            "newValueName": "Имя нового значения",
+            "types": {
+                "dword": "32-разрядное число",
+                "string": "Текст",
+                "expandableString": "Текст и переменные",
+                "multiString": "Массив строк",
+                "binaryData": "Двоичные данные"
+            },
+            "selectValueType": "Выберите тип значения",
+            "insertValueData": "Введите данные значения",
+            "create": "Создать",
+            "cancel": "Отменить"
+        },
+        "confirmDeleteValueModal": {
+            "title": "Подтвердите удаление ключа",
+            "text": "Вы уверены, что хотите навсегда удалить значение \"{{value}}\"?"
+        }
+    }
+}

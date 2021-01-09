@@ -1,0 +1,50 @@
+{
+    "global": {
+        "yes": "Yes",
+        "no": "No"
+    },
+    "addressBar": {
+        "registryPath": "Registry path",
+        "invalidRegistryPath": "Invalid registry path"
+    },
+    "keysTreeView": {
+        "computer": "Computer",
+        "newKeyModal": {
+            "title": "Create a new key",
+            "newKeyName": "New key name",
+            "create": "Create",
+            "cancel": "Cancel"
+        },
+        "confirmDeleteKeyModal": {
+            "title": "Confirm key deletion",
+            "text": "Are you sure you want to permanently delete the key \"{{key}}\" and all of its subkeys?"
+        }
+    },
+    "valuesList": {
+        "columnNames": {
+            "name": "Name",
+            "type": "Type",
+            "value": "Value"
+        },
+        "defaultName": "(Default)",
+        "newValueModal": {
+            "title": "Create a new value",
+            "newValueName": "New value name",
+            "types": {
+                "dword": "32-bit number",
+                "string": "String",
+                "expandableString": "Expandable string",
+                "multiString": "Multi-string",
+                "binaryData": "Binary data"
+            },
+            "selectValueType": "Select the value type",
+            "insertValueData": "Insert value data",
+            "create": "Create",
+            "cancel": "Cancel"
+        },
+        "confirmDeleteValueModal": {
+            "title": "Confirm key deletion",
+            "text": "Are you sure you want to permanently delete the value \"{{value}}\"?"
+        }
+    }
+}

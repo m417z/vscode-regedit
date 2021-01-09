@@ -1,34 +1,52 @@
-# Cat Coding — A Webview API Sample
+# Regedit - A registry editor inside VS Code
 
-Demonstrates VS Code's [webview API](https://code.visualstudio.com/api/extension-guides/webview). This includes:
+The extension allows to access and modify the Windows registry from within Visual Studio Code.
 
-- Creating and showing a basic webview.
-- Dynamically updating a webview's content.
-- Loading local content in a webview.
-- Running scripts in a webview.
-- Sending message from an extension to a webview.
-- Sending messages from a webview to an extension.
-- Using a basic content security policy.
-- Webview lifecycle and handling dispose.
-- Saving and restoring state when the panel goes into the background.
-- Serialization and persistence across VS Code reboots.
+![Main window screenshot](assets/readme-main-window.png)
 
-## Demo
+To open the extension, use the "New Regedit Tab" command or open a new tab from the Editor Actions menu.
 
-![demo](demo.gif)
+![New tab screenshot](assets/readme-new-tab.png)
 
-## VS Code API
+To rename or modify values, click on their name or value.
 
-### `vscode` module
+To remove a key or a value, use the middle mouse button.
 
-- [`window.createWebviewPanel`](https://code.visualstudio.com/api/references/vscode-api#window.createWebviewPanel)
-- [`window.registerWebviewPanelSerializer`](https://code.visualstudio.com/api/references/vscode-api#window.registerWebviewPanelSerializer)
+To refresh the data, click on the address bar and press Enter.
 
-## Running the example
+This extension doesn't allow to rename keys.
 
-- Open this example in VS Code 1.47+
-- `npm install`
-- `npm run watch` or `npm run compile`
-- `F5` to start debugging
+## More information
 
-Run the `Cat Coding: Start cat coding session` to create the webview.
+I created this extension to learn how to develop extensions for VS Code. This extension demonstrates how to use React inside a WebView, how to communicate with the extension process, and how to implement localization.
+
+Main dependencies:
+* React as the UI framework.
+* [React Suite](https://rsuitejs.com/) for the main UI components.
+* [native-reg](native-reg) for accessing the registry from the extension process.
+
+Icon by [Freepik](https://www.freepik.com/).
+
+## Features that can be added in the future
+
+Below is a list of features that can be added. Note that it doesn't mean that I plan to add them.
+
+### Features available in the Windows regedit
+
+* Support for more types.
+* Binary data access for all types.
+* Key renaming (requires using [the undocumented `RegRenameKey` API](https://stackoverflow.com/a/43854340)).
+* Search.
+* Permissions.
+* Import and export.
+* Hive loading and unloading.
+* Network registry.
+* Favorites.
+* Print?! (Why does Microsoft have this feature?)
+
+### More features
+
+* Undo and redo.
+* Moving values and child keys between keys.
+* Clipboard operations.
+* Displaying last modified time.

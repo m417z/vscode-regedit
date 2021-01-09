@@ -25,6 +25,8 @@ Main dependencies:
 * [React Suite](https://rsuitejs.com/) for the main UI components.
 * [native-reg](native-reg) for accessing the registry from the extension process.
 
+The React UI source code can be found here: [vscode-regedit-ui](https://github.com/m417z/vscode-regedit-ui).
+
 Icon by [Freepik](https://www.freepik.com/).
 
 ## Features that can be added in the future

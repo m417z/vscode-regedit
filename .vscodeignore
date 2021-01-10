@@ -1,0 +1,5 @@
+.vscode/**
+src/**
+out/**/*.map
+webview/**/*.map
+tsconfig.json

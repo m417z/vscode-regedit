@@ -1,5 +1,6 @@
 {
 	"name": "regedit",
+	"displayName": "Regedit",
 	"description": "A registry editor inside VS Code",
 	"version": "1.0.0",
 	"icon": "assets/main-icon.png",

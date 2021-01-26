@@ -23,7 +23,7 @@ I created this extension to learn how to develop extensions for VS Code. This ex
 Main dependencies:
 * React as the UI framework.
 * [React Suite](https://rsuitejs.com/) for the main UI components.
-* [native-reg](native-reg) for accessing the registry from the extension process.
+* [native-reg](https://github.com/simonbuchan/native-reg) for accessing the registry from the extension process.
 
 The React UI source code can be found here: [vscode-regedit-ui](https://github.com/m417z/vscode-regedit-ui).
 

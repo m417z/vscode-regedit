@@ -37,7 +37,6 @@ Below is a list of features that can be added. Note that it doesn't mean that I 
 
 * Support for more types.
 * Binary data access for all types.
-* Key renaming (requires using [the undocumented `RegRenameKey` API](https://stackoverflow.com/a/43854340)).
 * Search.
 * Permissions.
 * Import and export.

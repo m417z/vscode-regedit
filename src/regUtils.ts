@@ -6,7 +6,7 @@ function splitKeyPath(keyPath: string) {
 		i = keyPath.length;
 	}
 	let rootKey;
-	switch (keyPath.substr(0, i).toUpperCase()) {
+	switch (keyPath.slice(0, i).toUpperCase()) {
 		case 'HKEY_CLASSES_ROOT':
 			rootKey = reg.HKCR;
 			break;
@@ -27,7 +27,7 @@ function splitKeyPath(keyPath: string) {
 	}
 	return {
 		rootKey,
-		subKey: keyPath.substr(i + 1)
+		subKey: keyPath.slice(i + 1)
 	};
 }
 
@@ -173,6 +173,24 @@ export function createKey(keyPath: string) {
 
 	key = reg.createKey(rootKey, subKey, 0);
 	reg.closeKey(key);
+}
+
+export function renameKey(keyPath: string, newSubKey: string) {
+	const { rootKey, subKey } = splitKeyPath(keyPath);
+
+	const key = reg.openKey(
+		rootKey,
+		subKey,
+		reg.Access.WRITE);
+	if (!key) {
+		throw new Error('Registry key doesn\'t exist');
+	}
+
+	try {
+		reg.renameKey(key, null, newSubKey);
+	} finally {
+		reg.closeKey(key);
+	}
 }
 
 export function deleteTree(keyPath: string) {

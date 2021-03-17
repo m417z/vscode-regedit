@@ -154,6 +154,19 @@ class RegeditPanel {
 						}
 						break;
 
+					case 'renameKey':
+						try {
+							regUtils.renameKey(message.key, message.newSubKey);
+							this._panel.webview.postMessage({
+								command: 'renameKeyDone',
+								key: message.key,
+								newSubKey: message.newSubKey
+							});
+						} catch (e) {
+							vscode.window.showErrorMessage(e.message);
+						}
+						break;
+
 					case 'deleteKey':
 						try {
 							const existed = regUtils.deleteTree(message.key);

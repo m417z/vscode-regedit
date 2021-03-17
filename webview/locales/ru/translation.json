@@ -9,6 +9,7 @@
     },
     "keysTreeView": {
         "computer": "Компьютер",
+        "keyName": "Имя ключа",
         "newKeyModal": {
             "title": "Создать новый ключ",
             "newKeyName": "Имя нового ключа",

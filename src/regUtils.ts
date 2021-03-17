@@ -61,9 +61,34 @@ function myParseValue(valueRaw: reg.Value) {
 		case reg.ValueType.DWORD:
 			return reg.parseValue(valueRaw) as number;
 
+		case reg.ValueType.QWORD:
+			return (reg.parseValue(valueRaw) as bigint).toString();
+
 		case reg.ValueType.SZ:
 		case reg.ValueType.EXPAND_SZ:
 			return reg.parseValue(valueRaw) as string;
+	}
+}
+
+function myValueToRawData(data: string | number, type: reg.ValueType) {
+	switch (type) {
+		case reg.ValueType.BINARY:
+		default:
+			return Buffer.from((data as string).replace(/\s/gm, ''), 'hex');
+
+		case reg.ValueType.MULTI_SZ:
+			return reg.formatMultiString(
+				(data as string).split(',').map(x => x.trim()).filter(x => x !== ''));
+
+		case reg.ValueType.DWORD:
+			return reg.formatDWORD(data as number);
+
+		case reg.ValueType.QWORD:
+			return reg.formatQWORD(BigInt(data));
+
+		case reg.ValueType.SZ:
+		case reg.ValueType.EXPAND_SZ:
+			return reg.formatString(data as string);
 	}
 }
 
@@ -153,17 +178,16 @@ export function createKey(keyPath: string) {
 export function deleteTree(keyPath: string) {
 	const { rootKey, subKey } = splitKeyPath(keyPath);
 
-	const DELETE = 0x00010000;
 	const key = reg.openKey(
 		rootKey,
 		subKey,
-		reg.Access.QUERY_VALUE | reg.Access.SET_VALUE | DELETE | reg.Access.ENUMERATE_SUB_KEYS);
+		reg.Access.QUERY_VALUE | reg.Access.SET_VALUE | reg.Access.DELETE | reg.Access.ENUMERATE_SUB_KEYS);
 	if (!key) {
 		return false;
 	}
 
 	try {
-		if (!reg.deleteTree(key, '')) {
+		if (!reg.deleteTree(key, null)) {
 			return false;
 		}
 
@@ -201,7 +225,7 @@ export function getKeyValues(keyPath: string) {
 			let type: string;
 			let value: string | number;
 
-			const valueRaw = reg.getValueRaw(key, '', valueName, reg.GetValueFlags.NO_EXPAND);
+			const valueRaw = reg.getValueRaw(key, null, valueName, reg.GetValueFlags.NO_EXPAND);
 			if (valueRaw) {
 				type = typeToString(valueRaw.type);
 				value = myParseValue(valueRaw);
@@ -233,11 +257,11 @@ export function renameValue(keyPath: string, oldName: string, newName: string) {
 	}
 
 	try {
-		if (reg.getValueRaw(key, '', newName, reg.GetValueFlags.NO_EXPAND)) {
+		if (reg.getValueRaw(key, null, newName, reg.GetValueFlags.NO_EXPAND)) {
 			throw new Error('Target name already exists');
 		}
 
-		const valueRaw = reg.getValueRaw(key, '', oldName, reg.GetValueFlags.NO_EXPAND);
+		const valueRaw = reg.getValueRaw(key, null, oldName, reg.GetValueFlags.NO_EXPAND);
 		if (!valueRaw) {
 			throw new Error('Registry value doesn\'t exist');
 		}
@@ -261,7 +285,7 @@ export function setValueData(keyPath: string, name: string, type: string, data: 
 	}
 
 	try {
-		const valueRaw = reg.getValueRaw(key, '', name, reg.GetValueFlags.NO_EXPAND);
+		const valueRaw = reg.getValueRaw(key, null, name, reg.GetValueFlags.NO_EXPAND);
 		if (!valueRaw) {
 			throw new Error('Registry value doesn\'t exist');
 		}
@@ -270,32 +294,7 @@ export function setValueData(keyPath: string, name: string, type: string, data: 
 			throw new Error('Registry value type doesn\'t match');
 		}
 
-		let dataRaw;
-		switch (valueRaw.type) {
-			case reg.ValueType.BINARY:
-			default:
-				dataRaw = Buffer.from(
-					(data as string).replace(/\s/gm, ''), 'hex');
-				break;
-
-			case reg.ValueType.MULTI_SZ:
-				//dataRaw = reg.formatMultiString(
-				//	(data as string).split(',').map(x => x.trim()).filter(x => x !== ''));
-				// Workaround for https://github.com/simonbuchan/native-reg/pull/13
-				dataRaw = reg.formatMultiString(
-					(data as string).split(',').map(x => x.trim()).filter(x => x !== '').concat(''));
-				break;
-
-			case reg.ValueType.DWORD:
-				dataRaw = reg.formatDWORD(data as number);
-				break;
-
-			case reg.ValueType.SZ:
-			case reg.ValueType.EXPAND_SZ:
-				dataRaw = reg.formatString(data as string);
-				break;
-		}
-
+		const dataRaw = myValueToRawData(data, valueRaw.type);
 		reg.setValueRaw(key, name, valueRaw.type, dataRaw);
 		return myParseValue(Object.assign(dataRaw, { type: valueRaw.type }));
 	} finally {
@@ -315,7 +314,7 @@ export function createValue(keyPath: string, name: string, type: string, data: s
 	}
 
 	try {
-		const valueRaw = reg.getValueRaw(key, '', name, reg.GetValueFlags.NO_EXPAND);
+		const valueRaw = reg.getValueRaw(key, null, name, reg.GetValueFlags.NO_EXPAND);
 		if (valueRaw) {
 			throw new Error('Registry value already exists');
 		}
@@ -325,32 +324,7 @@ export function createValue(keyPath: string, name: string, type: string, data: s
 			throw new Error('Unsupported registry value type');
 		}
 
-		let dataRaw;
-		switch (regType) {
-			case reg.ValueType.BINARY:
-			default:
-				dataRaw = Buffer.from(
-					(data as string).replace(/\s/gm, ''), 'hex');
-				break;
-
-			case reg.ValueType.MULTI_SZ:
-				//dataRaw = reg.formatMultiString(
-				//	(data as string).split(',').map(x => x.trim()).filter(x => x !== ''));
-				// Workaround for https://github.com/simonbuchan/native-reg/pull/13
-				dataRaw = reg.formatMultiString(
-					(data as string).split(',').map(x => x.trim()).filter(x => x !== '').concat(''));
-				break;
-
-			case reg.ValueType.DWORD:
-				dataRaw = reg.formatDWORD(data as number);
-				break;
-
-			case reg.ValueType.SZ:
-			case reg.ValueType.EXPAND_SZ:
-				dataRaw = reg.formatString(data as string);
-				break;
-		}
-
+		const dataRaw = myValueToRawData(data, regType);
 		reg.setValueRaw(key, name, regType, dataRaw);
 		return myParseValue(Object.assign(dataRaw, { type: regType }));
 	} finally {

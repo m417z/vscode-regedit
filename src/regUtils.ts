@@ -121,7 +121,7 @@ export function getKeyTree(keyPath: string) {
 
 	const { rootKey, subKey } = splitKeyPath(keyPath);
 	const rootKeyName = 'HKEY_' + reg.HKEY[rootKey];
-	const keyPathParts = subKey.split('\\');
+	const keyPathParts = subKey === '' ? [] : subKey.split('\\');
 
 	const tree: Tree = [{
 		name: rootKeyName,

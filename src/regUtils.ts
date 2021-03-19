@@ -33,6 +33,10 @@ function splitKeyPath(keyPath: string) {
 
 function typeToString(type: reg.ValueType) {
 	let str = reg.ValueType[type];
+	if (str === undefined) {
+		return '0x' + type.toString(16);
+	}
+
 	switch (str) {
 		case 'DWORD_LITTLE_ENDIAN':
 			str = 'DWORD';

@@ -116,7 +116,7 @@ export function getSubKeys(keyPath: string) {
 export function getKeyTree(keyPath: string) {
 	type Tree = {
 		name: string;
-		children: Tree;
+		children?: Tree;
 	}[]
 
 	const { rootKey, subKey } = splitKeyPath(keyPath);
@@ -127,12 +127,12 @@ export function getKeyTree(keyPath: string) {
 		name: rootKeyName,
 		children: []
 	}];
-	let treeIter = tree[0].children;
+	let treeIter = tree[0];
 
 	let subKeyIter = '';
 	for (const keyPathPart of [''].concat(keyPathParts)) {
 		if (keyPathPart !== '') {
-			const next = treeIter.find(x => x.name.toLowerCase() === keyPathPart.toLowerCase());
+			const next = treeIter.children?.find(x => x.name.toLowerCase() === keyPathPart.toLowerCase());
 			if (!next) {
 				break;
 			}
@@ -142,13 +142,15 @@ export function getKeyTree(keyPath: string) {
 			}
 
 			subKeyIter += next.name;
-			treeIter = next.children;
+			treeIter = next;
 		}
 
-		treeIter.push(...getSubKeysIntrenal(rootKey, subKeyIter).map(x => ({
+		const children = getSubKeysIntrenal(rootKey, subKeyIter).map(x => ({
 			name: x,
 			children: []
-		})));
+		}));
+
+		treeIter.children = children.length > 0 ? children : undefined;
 	}
 
 	let retrievedKey = rootKeyName;

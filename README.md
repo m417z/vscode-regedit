@@ -8,13 +8,13 @@ To open the extension, use the "New Regedit Tab" command or open a new tab from 
 
 ![New tab screenshot](assets/readme-new-tab.png)
 
+To rename the selected key, click on the active item in the tree.
+
 To rename or modify values, click on their name or value.
 
 To remove a key or a value, use the middle mouse button.
 
 To refresh the data, click on the address bar and press Enter.
-
-This extension doesn't allow to rename keys.
 
 ## More information
 

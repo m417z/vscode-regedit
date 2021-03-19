@@ -2,7 +2,7 @@
 	"name": "regedit",
 	"displayName": "Regedit",
 	"description": "A registry editor inside VS Code",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"icon": "assets/main-icon.png",
 	"publisher": "m417z",
 	"engines": {
